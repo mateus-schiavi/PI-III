@@ -8,4 +8,4 @@ class HeartBeatViewSet(viewsets.ModelViewSet):
     serializer_class = HeartBeatSerializer
 
 def home(request):
-    return HttpResponse("Bem-vindo à página inicial da API!")
+    return render(request, 'template.html')
