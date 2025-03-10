@@ -1,0 +1,7 @@
+<h2>Cadastro de Médico</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Cadastrar</button>
+</form>
+<a href="{% url 'login' %}">Já tem conta? Faça login</a>

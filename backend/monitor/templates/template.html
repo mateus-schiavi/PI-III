@@ -1,7 +1,6 @@
-<!-- monitor/templates/monitor/home.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
-{%load static%}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +19,7 @@
                 <ul>
                     <li><a href="#sobre">Sobre</a></li>
                     <li><a href="#contato">Contato</a></li>
-                    <li><a href="#login">Login</a></li>
+                    <li><a href="{% url 'login_medico' %}">Login</a></li>  <!-- Corrigido para usar a URL 'login_medico' -->
                 </ul>
             </nav>
         </div>
@@ -47,5 +46,4 @@
         <p>&copy; 2025 Monitoramento de Saúde. Todos os direitos reservados.</p>
     </footer>
 </body>
-
 </html>
