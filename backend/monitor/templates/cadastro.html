@@ -1,7 +1,47 @@
-<h2>Cadastro de Médico</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Cadastrar</button>
-</form>
-<a href="{% url 'login' %}">Já tem conta? Faça login</a>
+<!DOCTYPE html>
+<html lang="pt-br">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Médico</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/cadastro.css' %}">  <!-- Novo CSS para cadastro -->
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Monitoramento de Batimentos Cardíacos</h1>
+            <nav>
+                <ul>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="{% url 'cadastro' %}">Cadastro</a></li>
+                    <li><a href="{% url 'login_medico' %}">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="cadastro-container">
+            <h2>Cadastro de Médico</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Cadastrar</button>
+            </form>
+
+            <a href="{% url 'login_medico' %}" class="login-link">Já tem conta? Faça login</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Monitoramento de Saúde. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
