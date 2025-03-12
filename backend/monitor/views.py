@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages  # Adicionando o módulo de mensagens
 from .forms import CadastroMedicoForm
 from .models import Medico
 from rest_framework import viewsets
 from .models import HeartBeat
 from .serializers import HeartBeatSerializer
 from django.http import HttpResponse
+
 class HeartBeatViewSet(viewsets.ModelViewSet):
     queryset = HeartBeat.objects.all()
     serializer_class = HeartBeatSerializer
@@ -20,9 +22,14 @@ def cadastro_medico(request):
             medico = form.save(commit=False)
             medico.set_password(form.cleaned_data['password'])
             medico.save()
-            return redirect('login')
+
+            # Adicionando a mensagem de sucesso
+            messages.success(request, 'Cadastro realizado com sucesso! Agora, faça o seu login.')
+
+            return redirect('login_medico')  # Redireciona para a página de login
     else:
         form = CadastroMedicoForm()
+
     return render(request, 'cadastro.html', {'form': form})
 
 # Página de Login
@@ -42,4 +49,4 @@ def login_medico(request):
 # Página de Logout
 def logout_medico(request):
     logout(request)
-    return redirect('login')
+    return redirect('login_medico')
