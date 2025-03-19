@@ -7,7 +7,8 @@ from rest_framework import viewsets
 from .models import HeartBeat
 from .serializers import HeartBeatSerializer
 from django.http import HttpResponse
-
+from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.models import User
 class HeartBeatViewSet(viewsets.ModelViewSet):
     queryset = HeartBeat.objects.all()
     serializer_class = HeartBeatSerializer
@@ -50,3 +51,24 @@ def login_medico(request):
 def logout_medico(request):
     logout(request)
     return redirect('login_medico')
+
+def reset_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        new_password = request.POST.get('new_password')
+
+        try:
+            user = User.objects.get(email=email)
+            form = SetPasswordForm(user, {'new_password1': new_password, 'new_password2': new_password})
+
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Sua senha foi redefinida com sucesso!')
+                return redirect('login_medico')
+            else:
+                messages.error(request, 'Houve um erro ao tentar redefinir a senha.')
+        except User.DoesNotExist:
+            messages.error(request, 'Nenhum usuário encontrado com esse e-mail')
+
+    return render(request, 'reset_password.html')
+
