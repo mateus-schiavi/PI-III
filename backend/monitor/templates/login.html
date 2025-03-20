@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 {% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login do Médico</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/login.css' %}">  <!-- Novo CSS para login -->
+    <link rel="stylesheet" href="{% static 'styles/login.css' %}"> <!-- Novo CSS para login -->
 </head>
+
 <body>
 
     <header>
@@ -31,7 +35,7 @@
             <h2>Login do Médico</h2>
 
             {% if erro %}
-                <p class="error-message">{{ erro }}</p>
+            <p class="error-message">{{ erro }}</p>
             {% endif %}
 
             <form method="POST">
@@ -40,6 +44,9 @@
                 <input type="password" name="password" placeholder="Senha" required>
                 <button type="submit">Entrar</button>
             </form>
+            {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
 
             <a href="{% url 'cadastro' %}" class="register-link">Não tem conta? Cadastre-se</a>
         </div>
@@ -50,4 +57,5 @@
     </footer>
 
 </body>
+
 </html>

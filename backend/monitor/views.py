@@ -9,7 +9,7 @@ from .serializers import HeartBeatSerializer
 from django.http import HttpResponse
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
-
+from django.contrib.auth.decorators import login_required
 class HeartBeatViewSet(viewsets.ModelViewSet):
     queryset = HeartBeat.objects.all()
     serializer_class = HeartBeatSerializer
@@ -39,16 +39,23 @@ def login_medico(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
+        
+        # Tentar autenticar o usuário
         user = authenticate(request, username=email, password=password)
+
         if user is not None:
-            login(request, user)
-            return redirect('dashboard')  # Redireciona para a área do médico
+            login(request, user)  # Realiza o login
+            return redirect('dashboard')  # Redireciona para o dashboard
         else:
             messages.error(request, 'Credenciais inválidas.')
-            return render(request, 'login.html')
 
     return render(request, 'login.html')
 
+
+@login_required
+def dashboard(request):
+    medico = request.user  # Obtém o médico que está logado (supondo que o modelo de usuário seja Medico)
+    return render(request, 'dashboard.html')
 # Página de Logout
 def logout_medico(request):
     logout(request)

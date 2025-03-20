@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'monitor.Medico'
+LOGIN_REDIRECT_URL = 'dashboard'
+
+
 
 # Application definition
 
