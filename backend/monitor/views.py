@@ -9,6 +9,7 @@ from .serializers import HeartBeatSerializer
 from django.http import HttpResponse
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
+
 class HeartBeatViewSet(viewsets.ModelViewSet):
     queryset = HeartBeat.objects.all()
     serializer_class = HeartBeatSerializer
@@ -43,7 +44,8 @@ def login_medico(request):
             login(request, user)
             return redirect('dashboard')  # Redireciona para a área do médico
         else:
-            return render(request, 'login.html', {'erro': 'Credenciais inválidas'})
+            messages.error(request, 'Credenciais inválidas.')
+            return render(request, 'login.html')
 
     return render(request, 'login.html')
 
@@ -58,17 +60,24 @@ def reset_password(request):
         new_password = request.POST.get('new_password')
 
         try:
-            user = User.objects.get(email=email)
-            form = SetPasswordForm(user, {'new_password1': new_password, 'new_password2': new_password})
+            # Buscando o usuário no modelo Medico (não User)
+            medico = Medico.objects.filter(email__iexact=email).first()
 
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Sua senha foi redefinida com sucesso!')
-                return redirect('login_medico')
+            if medico:
+                form = SetPasswordForm(medico, {'new_password1': new_password, 'new_password2': new_password})
+
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'Sua senha foi redefinida com sucesso!')
+                    return redirect('login_medico')
+                else:
+                    # Adicionando erros do formulário
+                    for error in form.errors.values():
+                        messages.error(request, error)
             else:
-                messages.error(request, 'Houve um erro ao tentar redefinir a senha.')
-        except User.DoesNotExist:
+                messages.error(request, 'Nenhum usuário encontrado com esse e-mail')
+
+        except Medico.DoesNotExist:
             messages.error(request, 'Nenhum usuário encontrado com esse e-mail')
 
     return render(request, 'reset_password.html')
-
