@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+    {%load static%}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do Médico</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Painel do Médico</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
+            rel="stylesheet">
+            <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}">
+    </head>
 
-<body>
+    <body>
 
 
-    {% block content %}
-    <div class="dashboard-container">
+        {% block content %}
+        <div class=" dashboard-container">
         <h1>Bem-vindo ao Painel do Médico</h1>
 
         <div class="dashboard-content">
@@ -41,9 +47,9 @@
             <!-- Link de Logout -->
             <a href="{% url 'logout_medico' %}" class="logout-btn">Sair</a>
         </div>
-    </div>
-    {% endblock %}
+        </div>
+        {% endblock %}
 
-</body>
+        </body>
 
 </html>
