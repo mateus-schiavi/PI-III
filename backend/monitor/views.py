@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages  # Adicionando o módulo de mensagens
 from .forms import CadastroMedicoForm
@@ -108,5 +108,20 @@ def salvar_monitoramento(request):
         messages.success(request, 'Monitoramento salvo com sucesso!')
         return redirect('salvar_monitoramento')  # Redireciona para limpar o form
 
-    # Se for GET, renderiza o formulário normalmente
-    return render(request, 'monitor_pacientes.html')
+    agendamentos = MonitorPaciente.objects.all().order_by('data_consulta', 'data_exame')
+
+    return render(request, 'monitor_pacientes.html', {
+        'agendamentos': agendamentos
+    })
+
+def excluir_agendamento(request, id):
+    agendamento = get_object_or_404(MonitorPaciente, id=id)
+    agendamento.delete()
+    messages.success(request, 'Agendamento excluído com sucesso!')
+
+    # Após excluir, recarrega a mesma página com os agendamentos atualizados
+    agendamentos = MonitorPaciente.objects.all().order_by('data_consulta', 'data_exame')
+    
+    return render(request, 'monitor_pacientes.html', {
+        'agendamentos': agendamentos
+    })
