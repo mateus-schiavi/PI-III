@@ -89,7 +89,7 @@ def reset_password(request):
 
     return render(request, 'reset_password.html')
 
-def salavar_monitoramento(request):
+def salvar_monitoramento(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
         telefone = request.POST.get('telefone')
@@ -105,4 +105,8 @@ def salavar_monitoramento(request):
             observacoes=observacoes
         )
 
-        return redirect('dashboard.html')
+        messages.success(request, 'Monitoramento salvo com sucesso!')
+        return redirect('salvar_monitoramento')  # Redireciona para limpar o form
+
+    # Se for GET, renderiza o formulário normalmente
+    return render(request, 'monitor_pacientes.html')
