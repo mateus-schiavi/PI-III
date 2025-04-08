@@ -53,19 +53,3 @@ button:hover {
     gap: 10px;
     margin-top: 20px;
 }
-
-.botao-retorno {
-    display: inline-block;
-    background-color: #6c757d;
-    color: white;
-    padding: 12px;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    flex: 1;
-    text-align: center;
-}
-
-.botao-retorno:hover {
-    background-color: #5a6268;
-}
