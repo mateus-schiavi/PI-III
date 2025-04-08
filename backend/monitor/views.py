@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages  # Adicionando o módulo de mensagens
 from .forms import CadastroMedicoForm
-from .models import Medico
+from .models import Medico, MonitorPaciente
 from rest_framework import viewsets
 from .models import HeartBeat
 from .serializers import HeartBeatSerializer
@@ -88,3 +88,21 @@ def reset_password(request):
             messages.error(request, 'Nenhum usuário encontrado com esse e-mail')
 
     return render(request, 'reset_password.html')
+
+def salavar_monitoramento(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        telefone = request.POST.get('telefone')
+        data_exame = request.POST.get('data_exame')
+        data_consulta = request.POST.get('data_consulta')
+        observacoes = request.POST.get('observacoes')
+
+        MonitorPaciente.objects.create(
+            nome=nome,
+            telefone=telefone,
+            data_exame=data_exame,
+            data_consulta=data_consulta,
+            observacoes=observacoes
+        )
+
+        return redirect('dashboard.html')
