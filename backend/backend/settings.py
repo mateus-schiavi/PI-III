@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'monitor.Medico'
+AUTH_USER_MODEL = 'monitoramento.Medico'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login_medico'
 
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'monitor',
+    'monitoramento',
 ]
 
 MIDDLEWARE = [
