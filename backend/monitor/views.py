@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
 class HeartBeatViewSet(viewsets.ModelViewSet):
     queryset = HeartBeat.objects.all()
     serializer_class = HeartBeatSerializer
@@ -35,6 +37,7 @@ def cadastro_medico(request):
     return render(request, 'cadastro.html', {'form': form})
 
 # Página de Login
+@csrf_protect
 def login_medico(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -51,8 +54,8 @@ def login_medico(request):
 
     return render(request, 'login.html')
 
-
-@login_required
+@never_cache
+@login_required(login_url='/login/')
 def dashboard(request):
     medico = request.user  # Obtém o médico que está logado (supondo que o modelo de usuário seja Medico)
     return render(request, 'dashboard.html')
@@ -89,6 +92,7 @@ def reset_password(request):
 
     return render(request, 'reset_password.html')
 
+@login_required
 def salvar_monitoramento(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
@@ -102,7 +106,8 @@ def salvar_monitoramento(request):
             telefone=telefone,
             data_exame=data_exame,
             data_consulta=data_consulta,
-            observacoes=observacoes
+            observacoes=observacoes,
+            medico = request.user
         )
 
         messages.success(request, 'Monitoramento salvo com sucesso!')
@@ -114,14 +119,13 @@ def salvar_monitoramento(request):
         'agendamentos': agendamentos
     })
 
+@login_required
 def excluir_agendamento(request, id):
     agendamento = get_object_or_404(MonitorPaciente, id=id)
     agendamento.delete()
     messages.success(request, 'Agendamento excluído com sucesso!')
 
     # Após excluir, recarrega a mesma página com os agendamentos atualizados
-    agendamentos = MonitorPaciente.objects.all().order_by('data_consulta', 'data_exame')
+    agendamentos = MonitorPaciente.objects.filter(medico=request.user).order_by('data_consulta', 'data_exame')
     
-    return render(request, 'monitor_pacientes.html', {
-        'agendamentos': agendamentos
-    })
+    return redirect('salvar_monitoramento')

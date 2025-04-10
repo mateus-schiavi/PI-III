@@ -50,5 +50,7 @@ class MonitorPaciente(models.Model):
     data_consulta = models.DateField()
     observacoes = models.TextField(blank=True, null=True)
 
+    medico = models.ForeignKey(Medico, on_delete=models.CASCADE, related_name='pacientes')
+
     def __str__(self):
         return self.nome

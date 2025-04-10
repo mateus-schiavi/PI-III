@@ -1,61 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-{% load static %}
+    {% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login do Médico</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login do Médico</title>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/login.css' %}"> <!-- Novo CSS para login -->
-</head>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'styles/login.css' %}"> <!-- Novo CSS para login -->
+    </head>
 
-<body>
+    <body>
 
-    <header>
-        <div class="container">
-            <h1>Monitoramento de Batimentos Cardíacos</h1>
-            <nav>
-                <ul>
-                    <li><a href="#sobre">Sobre</a></li>
-                    <li><a href="{% url 'cadastro' %}">Cadastro</a></li>
-                    <li><a href="{% url 'login_medico' %}">Login</a></li>
-                    <li><a href="{%url 'reset_password'%}">Redefinir Senha</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+        <header>
+            <div class="container">
+                <h1>Monitoramento de Batimentos Cardíacos</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="{% url 'cadastro' %}">Cadastro</a></li>
+                        <li><a href="{% url 'login_medico' %}">Login</a></li>
+                        <li><a href="{%url 'reset_password'%}">Redefinir Senha</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-    <main>
-        <div class="login-container">
-            <h2>Login do Médico</h2>
+        <main>
+            <div class="login-container">
+                <h2>Login do Médico</h2>
 
-            {% if erro %}
-            <p class="error-message">{{ erro }}</p>
-            {% endif %}
+                {% if erro %}
+                <p class="error-message">{{ erro }}</p>
+                {% endif %}
 
-            <form method="POST">
-                {% csrf_token %}
-                <input type="email" name="email" placeholder="E-mail" required>
-                <input type="password" name="password" placeholder="Senha" required>
-                <button type="submit">Entrar</button>
-            </form>
-            {% if request.GET.next %}
-            <input type="hidden" name="next" value="{{ request.GET.next }}">
-            {% endif %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="email" name="email" placeholder="E-mail" required>
+                    <input type="password" name="password" placeholder="Senha" required>
 
-            <a href="{% url 'cadastro' %}" class="register-link">Não tem conta? Cadastre-se</a>
-        </div>
-    </main>
+                    {% if request.GET.next %}
+                    <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    {% endif %}
+                    <button type="submit">Entrar</button>
+                </form>
 
-    <footer>
-        <p>&copy; 2025 Monitoramento de Saúde. Todos os direitos reservados.</p>
-    </footer>
 
-</body>
+                <a href="{% url 'cadastro' %}" class="register-link">Não tem conta? Cadastre-se</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Monitoramento de Saúde. Todos os direitos reservados.</p>
+        </footer>
+
+    </body>
 
 </html>
