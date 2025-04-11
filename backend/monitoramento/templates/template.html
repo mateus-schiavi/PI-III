@@ -10,19 +10,23 @@
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
             rel="stylesheet">
         <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+        <!-- Coloque isso dentro da tag <head> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     </head>
 
     <body>
         <header>
             <div class="container">
-                <h1>Monitoramento de Batimentos Cardíacos</h1>
+                <h1><i class="fa-solid fa-heart-pulse"></i>Monitoramento de Batimentos Cardíacos</h1>
                 <nav>
                     <ul>
-                        <li><a href="{%url 'home'%}">Sobre</a></li>
-                    <li><a href=" {% url 'cadastro'%}">Cadastro</a></li>
-                        <li><a href="{% url 'login_medico' %}">Login</a></li>
+                        <li><a href="{%url 'home'%}"><i class="fa-solid fa-info-circle"></i>Sobre</a></li>
+                        <li><a href=" {% url 'cadastro'%}"><i class="fa-solid fa-user-plus"></i>Cadastro</a></li>
+                        <li><a href="{% url 'login_medico' %}"><i class="fa-solid fa-user-doctor"></i>Iniciar Monitoramento</a></li>
                         <!-- Corrigido para usar a URL 'login_medico' -->
-                        <li><a href="{%url 'reset_password'%}">Redefinir Senha</a></li>
+                        <li><a href="{%url 'reset_password'%}"><i class="fa-solid fa-unlock-keyhole"></i>Redefinir
+                                Senha</a></li>
                     </ul>
                 </nav>
             </div>
@@ -38,10 +42,12 @@
             </section>
 
             <section id="contato">
-                <h2>Contato</h2>
+                <h2><i class="fa-solid fa-envelope-open-text"></i>Contato</h2>
                 <p>Para mais informações, entre em contato com nossa equipe de suporte.</p>
                 <address>
-                    <p>Email: <a href="mailto:support@monitoramento.com">support@monitoramento.com</a></p>
+                    <p><i class="fa-solid fa-envelope"></i>Email:
+                        <a href="mailto:support@monitoramento.com">support@monitoramento.com</a>
+                    </p>
                 </address>
             </section>
         </main>
