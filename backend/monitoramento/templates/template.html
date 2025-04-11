@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoramento de Saúde</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
-</head>
+    {% load static %}
 
-<body>
-    <header>
-        <div class="container">
-            <h1>Monitoramento de Batimentos Cardíacos</h1>
-            <nav>
-                <ul>
-                    <li><a href="#sobre">Sobre</a></li>
-                    <li><a href="{% url 'cadastro'%}">Cadastro</a></li>
-                    <li><a href="{% url 'login_medico' %}">Login</a></li>  <!-- Corrigido para usar a URL 'login_medico' -->
-                    <li><a href="{%url 'reset_password'%}">Redefinir Senha</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Monitoramento de Saúde</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+    </head>
 
-    <main>
-        <section id="sobre">
-            <h2>Bem-vindo ao Sistema de Monitoramento de Saúde</h2>
-            <p>Este sistema foi desenvolvido para monitorar e analisar os batimentos cardíacos em tempo real.</p>
-            <p>Utilizando a tecnologia de sensores flexíveis e IoT, oferecemos uma solução eficiente para acompanhar a
-                saúde dos pacientes.</p>
-        </section>
+    <body>
+        <header>
+            <div class="container">
+                <h1>Monitoramento de Batimentos Cardíacos</h1>
+                <nav>
+                    <ul>
+                        <li><a href="{%url 'home'%}">Sobre</a></li>
+                    <li><a href=" {% url 'cadastro'%}">Cadastro</a></li>
+                        <li><a href="{% url 'login_medico' %}">Login</a></li>
+                        <!-- Corrigido para usar a URL 'login_medico' -->
+                        <li><a href="{%url 'reset_password'%}">Redefinir Senha</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-        <section id="contato">
-            <h2>Contato</h2>
-            <p>Para mais informações, entre em contato com nossa equipe de suporte.</p>
-            <address>
-                <p>Email: <a href="mailto:support@monitoramento.com">support@monitoramento.com</a></p>
-            </address>
-        </section>
-    </main>
+        <main>
+            <section id="sobre">
+                <h2>Bem-vindo ao Sistema de Monitoramento de Saúde</h2>
+                <p>Este sistema foi desenvolvido para monitorar e analisar os batimentos cardíacos em tempo real.</p>
+                <p>Utilizando a tecnologia de sensores flexíveis e IoT, oferecemos uma solução eficiente para acompanhar
+                    a
+                    saúde dos pacientes.</p>
+            </section>
 
-    <footer>
-        <p>&copy; 2025 Monitoramento de Saúde. Todos os direitos reservados.</p>
-    </footer>
-</body>
+            <section id="contato">
+                <h2>Contato</h2>
+                <p>Para mais informações, entre em contato com nossa equipe de suporte.</p>
+                <address>
+                    <p>Email: <a href="mailto:support@monitoramento.com">support@monitoramento.com</a></p>
+                </address>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Monitoramento de Saúde. Todos os direitos reservados.</p>
+        </footer>
+    </body>
+
 </html>
