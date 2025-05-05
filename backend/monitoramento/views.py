@@ -27,20 +27,32 @@ def home(request):
 # Cadastro de médico
 def cadastro_medico(request):
     if request.method == 'POST':
-        form = CadastroMedicoForm(request.POST)
-        if form.is_valid():
-            medico = form.save(commit=False)
-            senha = form.cleaned_data['password']
-            medico.set_password(senha)
-            medico.save()
-            messages.success(request, 'Cadastro realizado com sucesso!')
-            return redirect('login_medico')
-    else:
-        form = CadastroMedicoForm()
+        nome = request.POST.get('nome')
+        crm = request.POST.get('crm')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        genero = request.POST.get('genero')
 
-    return render(request, 'cadastro.html', {'form': form})
+        # Validação do campo 'genero'
+        if not genero:
+            messages.error(request, "O campo 'Gênero' é obrigatório.")
+            return render(request, 'cadastro.html', {'genero': genero})
 
-# Login
+        # Criação do médico
+        medico = Medico(
+            nome=nome,
+            crm=crm,
+            email=email,
+            genero=genero
+        )
+        medico.set_password(password)  # Definindo a senha com hash
+        medico.save()
+        messages.success(request, 'Cadastro realizado com sucesso!')
+        return redirect('login_medico')
+
+    return render(request, 'cadastro.html')
+
+
 @csrf_protect
 def login_medico(request):
     if request.method == 'POST':
@@ -49,8 +61,19 @@ def login_medico(request):
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
+            # Lógica para definir a saudação com base no gênero
+            if user.genero == 'M':
+                saudacao = f"Bem-vindo, Dr. {user.nome}"
+            elif user.genero == 'F':
+                saudacao = f"Bem-vinda, Dra. {user.nome}"
+            else:
+                saudacao = f"Bem-vindo, {user.nome}"  # Caso o gênero seja 'Outro'
+            
+            # Armazenando a saudação na sessão
+            request.session['medico_saudacao'] = saudacao
+            
             login(request, user)
-            return redirect('dashboard')
+            return redirect('dashboard')  # Redireciona para o painel do médico
         else:
             messages.error(request, 'Credenciais inválidas.')
 
@@ -62,9 +85,10 @@ def login_medico(request):
 def dashboard(request):
     return render(request, 'dashboard.html')
 
-# Logout
 def logout_medico(request):
     logout(request)
+    if 'medico_saudacao' in request.session:
+        del request.session['medico_saudacao']  # Remove a saudação da sessão
     return redirect('login_medico')
 
 # Redefinir senha
@@ -121,3 +145,9 @@ def excluir_agendamento(request, id):
     agendamento.delete()
     messages.success(request, 'Agendamento excluído com sucesso!')
     return redirect('salvar_monitoramento')
+
+@login_required
+def informacoes_pessoais(request):
+    medico = request.user
+
+    return render(request, 'info_pessoal.html', {'medico': medico})

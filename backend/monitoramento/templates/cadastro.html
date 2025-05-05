@@ -18,12 +18,10 @@
             <h1><i class="fa-solid fa-heart-pulse"></i>Monitoramento de Batimentos Cardíacos</h1>
             <nav>
                 <ul>
-                    <li><a href="{%url 'home'%}"><i class="fa-solid fa-info-circle"></i>Sobre</a></li>
-                        <li><a href=" {% url 'cadastro'%}"><i class="fa-solid fa-user-plus"></i>Cadastro</a></li>
-                        <li><a href="{% url 'login_medico' %}"><i class="fa-solid fa-user-doctor"></i>Iniciar Monitoramento</a></li>
-                        <!-- Corrigido para usar a URL 'login_medico' -->
-                        <li><a href="{%url 'reset_password'%}"><i class="fa-solid fa-unlock-keyhole"></i>Redefinir
-                                Senha</a></li>
+                    <li><a href="{% url 'home' %}"><i class="fa-solid fa-info-circle"></i>Sobre</a></li>
+                    <li><a href="{% url 'cadastro' %}"><i class="fa-solid fa-user-plus"></i>Cadastro</a></li>
+                    <li><a href="{% url 'login_medico' %}"><i class="fa-solid fa-user-doctor"></i>Iniciar Monitoramento</a></li>
+                    <li><a href="{% url 'reset_password' %}"><i class="fa-solid fa-unlock-keyhole"></i>Redefinir Senha</a></li>
                 </ul>
             </nav>
         </div>
@@ -35,7 +33,27 @@
 
             <form method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
+                
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+
+                <label for="crm">CRM:</label>
+                <input type="text" id="crm" name="crm" required>
+
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="genero">Gênero:</label>
+                <select name="genero" id="genero" required>
+                    <option value="">Selecione</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                    <option value="O">Outro</option>
+                </select>
+
                 <button type="submit">Cadastrar</button>
             </form>
 

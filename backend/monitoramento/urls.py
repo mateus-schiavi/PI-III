@@ -13,7 +13,8 @@ urlpatterns = [
     path('reset_password/', views.reset_password, name='reset_password'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard/monitor_pacientes/', views.salvar_monitoramento, name='salvar_monitoramento'),
-    path('dashboard/excluir_agendamento/<int:id>/', views.excluir_agendamento, name='excluir_agendamento')
+    path('dashboard/excluir_agendamento/<int:id>/', views.excluir_agendamento, name='excluir_agendamento'),
+    path('info_pessoal/', views.informacoes_pessoais, name='informacoes_pessoais')
 ]
 
 urlpatterns += router.urls
