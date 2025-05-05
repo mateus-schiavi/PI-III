@@ -34,6 +34,12 @@ class Medico(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
 
+    genero = models.CharField(
+        max_length=1,
+        choices = [('M', 'Masculino'), ('F', 'Feminino'), ('O', 'Outro')],
+        blank=False
+    )
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 

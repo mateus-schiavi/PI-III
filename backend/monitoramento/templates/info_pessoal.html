@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    {% load static %}
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Informações Pessoais</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'styles/info_pessoal.css' %}">
+    </head>
+
+    <body>
+        {% block content %}
+        <div class="container">
+            <h1>Informações Pessoais</h1>
+
+            <div class="info-card">
+                <h2>Dados Pessoais</h2>
+                <p><span class="label">Nome:</span> {{ medico.nome }}</p>
+                <p><span class="label">CRM:</span> {{ medico.crm }}</p>
+                <p><span class="label">E-mail:</span> {{ medico.email }}</p>
+            </div>
+
+            <!-- Botão para voltar para o dashboard -->
+            <a href="{% url 'dashboard' %}" class="btn voltar-btn">Voltar para o Dashboard</a>
+        </div>
+        {% endblock %}
+    </body>
+</html>

@@ -18,7 +18,7 @@
 
         {% block content %}
         <div class=" dashboard-container">
-        <h1>Bem-vindo ao Painel do Médico</h1>
+        <h1>{{ request.session.medico_saudacao }}</h1>
 
         <div class="dashboard-content">
             <p>Este é o painel onde você pode gerenciar suas informações, agendamentos e muito mais!</p>
@@ -28,7 +28,7 @@
                 <div class="card">
                     <h3>Informações Pessoais</h3>
                     <p>Veja e edite suas informações pessoais.</p>
-                    <a href="#">Ir para informações</a>
+                    <a href="{% url 'informacoes_pessoais' %}">Ir para informações</a>
                 </div>
 
                 <div class="card">
