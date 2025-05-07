@@ -1,11 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-class HeartBeat(models.Model):
-    bpm = models.IntegerField()  # Batimentos por minuto
-    timestamp = models.DateTimeField(auto_now_add=True)  # Hora do registro
-
-    def __str__(self):
-        return f"{self.bpm} BPM at {self.timestamp}"
 
 class MedicoManager(BaseUserManager):
     def create_user(self, email, nome, crm, password=None):
@@ -37,7 +31,8 @@ class Medico(AbstractBaseUser, PermissionsMixin):
     genero = models.CharField(
         max_length=1,
         choices = [('M', 'Masculino'), ('F', 'Feminino'), ('O', 'Outro')],
-        blank=False
+        blank=False,
+        null = True,
     )
 
     is_active = models.BooleanField(default=True)
@@ -60,14 +55,26 @@ class MonitorPaciente(models.Model):
 
     medico = models.ForeignKey(Medico, on_delete=models.CASCADE, related_name='pacientes')
 
+    # Alterando o related_name para evitar conflito
+    resultados_exames = models.ManyToManyField('ResultadoExame', related_name='exames_do_paciente')
+
     def __str__(self):
         return self.nome
-    
+
+
 class ResultadoExame(models.Model):
-    paciente = models.ForeignKey(MonitorPaciente, on_delete=models.CASCADE, related_name='resultados_exames')
-    exame = models.CharField(max_length=100)  # Nome do exame, por exemplo, "Exame de sangue"
-    resultado = models.TextField()  # Detalhes do resultado
-    data_exame = models.DateField()  # Data em que o exame foi realizado
+    paciente = models.ForeignKey(MonitorPaciente, on_delete=models.CASCADE, related_name='resultados_do_paciente')  # Modifique aqui
+    exame = models.CharField(max_length=100)
+    resultado = models.TextField()
+    data_exame = models.DateField()
 
     def __str__(self):
         return f"Resultado de {self.exame} - {self.paciente.nome}"
+    
+class HeartBeat(models.Model):
+    paciente = models.ForeignKey(MonitorPaciente, on_delete=models.CASCADE, related_name='batimentos_cardiacos', null=True, blank=True)
+    bpm = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Batimento de {self.paciente.nome} em {self.timestamp}"

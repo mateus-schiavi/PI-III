@@ -21,11 +21,12 @@
 
             <div class="dashboard-content">
                 <h2 style="text-align:center;">Histórico de Batimentos Cardíacos</h2>
-                
+
                 <!-- Link para simulação de batimentos -->
                 <a class="button" href="{% url 'simular_batimentos' %}">Simular Batimento</a>
 
                 <!-- Tabela de batimentos -->
+                <h3>Batimentos Cardíacos Registrados</h3>
                 <table>
                     <thead>
                         <tr>
@@ -35,14 +36,41 @@
                     </thead>
                     <tbody>
                         {% for batimento in batimentos %}
-                            <tr>
-                                <td>{{ batimento.timestamp|date:"d/m/Y H:i:s" }}</td>
-                                <td>{{ batimento.bpm }}</td>
-                            </tr>
+                        <tr>
+                            <td>{{ batimento.timestamp|date:"d/m/Y H:i:s" }}</td>
+                            <td>{{ batimento.bpm }}</td>
+                        </tr>
                         {% empty %}
-                            <tr>
-                                <td colspan="2">Nenhum batimento registrado ainda.</td>
-                            </tr>
+                        <tr>
+                            <td colspan="2">Nenhum batimento registrado ainda.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <hr> <!-- Separador entre seções -->
+
+                <!-- Histórico de Exames -->
+                <h3>Histórico de Exames</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Exame</th>
+                            <th>Data do Exame</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resultado in resultados %}
+                        <tr>
+                            <td>{{ resultado.exame }}</td>
+                            <td>{{ resultado.data_exame|date:"d/m/Y" }}</td>
+                            <td>{{ resultado.resultado }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">Nenhum exame registrado para este paciente.</td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -54,4 +82,5 @@
         {% endblock %}
 
     </body>
+
 </html>
