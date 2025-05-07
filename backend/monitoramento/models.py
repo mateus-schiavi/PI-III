@@ -62,3 +62,12 @@ class MonitorPaciente(models.Model):
 
     def __str__(self):
         return self.nome
+    
+class ResultadoExame(models.Model):
+    paciente = models.ForeignKey(MonitorPaciente, on_delete=models.CASCADE, related_name='resultados_exames')
+    exame = models.CharField(max_length=100)  # Nome do exame, por exemplo, "Exame de sangue"
+    resultado = models.TextField()  # Detalhes do resultado
+    data_exame = models.DateField()  # Data em que o exame foi realizado
+
+    def __str__(self):
+        return f"Resultado de {self.exame} - {self.paciente.nome}"

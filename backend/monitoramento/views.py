@@ -83,7 +83,11 @@ def login_medico(request):
 @never_cache
 @login_required(login_url='/login/')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    pacientes = MonitorPaciente.objects.filter(medico=request.user)
+    return render(request, 'dashboard.html', {
+        'pacientes': pacientes,
+        'medico': request.user
+    })
 
 def logout_medico(request):
     logout(request)
@@ -159,6 +163,11 @@ def simular_batimentos(request):
     return redirect('ver_historico')
 
 @login_required
-def ver_historico(request):
-    batimentos = HeartBeat.objects.order_by('-timestamp')[:10]
-    return render(request, 'historico.html', {'batimentos': batimentos})
+def ver_historico(request, paciente_nome):
+    # Buscando o paciente pelo nome
+    paciente = get_object_or_404(MonitorPaciente, nome=paciente_nome)
+    
+    # Acessando os resultados de exames relacionados a esse paciente
+    resultados = paciente.resultados_exames.all()
+
+    return render(request, 'historico.html', {'paciente': paciente, 'resultados': resultados})
