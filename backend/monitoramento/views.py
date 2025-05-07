@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.forms import SetPasswordForm
-
+import random
 from .forms import CadastroMedicoForm
 from .models import Medico, MonitorPaciente, HeartBeat
 from .serializers import HeartBeatSerializer
@@ -151,3 +151,14 @@ def informacoes_pessoais(request):
     medico = request.user
 
     return render(request, 'info_pessoal.html', {'medico': medico})
+
+@login_required
+def simular_batimentos(request):
+    bpm_simulado = random.randint(60, 100)
+    HeartBeat.objects.create(bpm=bpm_simulado)
+    return redirect('ver_historico')
+
+@login_required
+def ver_historico(request):
+    batimentos = HeartBeat.objects.order_by('-timestamp')[:10]
+    return render(request, 'historico.html', {'batimentos': batimentos})
