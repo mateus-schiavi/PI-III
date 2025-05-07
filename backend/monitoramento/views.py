@@ -10,15 +10,11 @@ import random
 from .forms import CadastroMedicoForm
 from .models import Medico, MonitorPaciente, HeartBeat
 from .serializers import HeartBeatSerializer
-
+from django.db import models
 from rest_framework import viewsets
 
 User = get_user_model()  # usa o modelo Medico como usuário
 
-# ViewSet da API
-class HeartBeatViewSet(viewsets.ModelViewSet):
-    queryset = HeartBeat.objects.all()
-    serializer_class = HeartBeatSerializer
 
 # Página inicial
 def home(request):
@@ -164,10 +160,12 @@ def simular_batimentos(request):
 
 @login_required
 def ver_historico(request, paciente_nome):
-    # Buscando o paciente pelo nome
     paciente = get_object_or_404(MonitorPaciente, nome=paciente_nome)
     
-    # Acessando os resultados de exames relacionados a esse paciente
+    # Buscando os batimentos cardíacos usando o related_name
+    batimentos = HeartBeat.objects.filter(paciente=paciente)
+
+    # Buscando os resultados de exames relacionados a esse paciente
     resultados = paciente.resultados_exames.all()
 
-    return render(request, 'historico.html', {'paciente': paciente, 'resultados': resultados})
+    return render(request, 'historico.html', {'paciente': paciente, 'batimentos': batimentos, 'resultados': resultados})
