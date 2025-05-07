@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    {%load static%}
+    {% load static %}
 
     <head>
         <meta charset="UTF-8">
@@ -9,47 +9,54 @@
         <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap"
             rel="stylesheet">
-            <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
         <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}">
     </head>
 
     <body>
 
-
         {% block content %}
-        <div class=" dashboard-container">
-        <h1>{{ request.session.medico_saudacao }}</h1>
+        <div class="dashboard-container">
+            <h1>{{ request.session.medico_saudacao }}</h1>
 
-        <div class="dashboard-content">
-            <p>Este é o painel onde você pode gerenciar suas informações, agendamentos e muito mais!</p>
+            <div class="dashboard-content">
+                <p>Este é o painel onde você pode gerenciar suas informações, agendamentos e muito mais!</p>
 
-            <!-- Exemplo de funcionalidades da área do médico -->
-            <div class="cards">
-                <div class="card">
-                    <h3>Informações Pessoais</h3>
-                    <p>Veja e edite suas informações pessoais.</p>
-                    <a href="{% url 'informacoes_pessoais' %}">Ir para informações</a>
+                <!-- Exemplo de funcionalidades da área do médico -->
+                <div class="cards">
+                    <div class="card">
+                        <h3>Informações Pessoais</h3>
+                        <p>Veja e edite suas informações pessoais.</p>
+                        <a href="{% url 'informacoes_pessoais' %}">Ir para informações</a>
+                    </div>
+
+                    <div class="card">
+                        <h3>Agendamentos</h3>
+                        <p>Veja seus agendamentos e marque novas consultas.</p>
+                        <a href="{% url 'salvar_monitoramento' %}">Ver Agendamentos</a>
+                    </div>
+
+                    <div class="card">
+                        <h3>Histórico Médico</h3>
+                        <p>Consulte o histórico de cada paciente.</p>
+
+                        {% for paciente in pacientes %}
+                        <div class="paciente-historico">
+                            <h4>{{ paciente.nome }}</h4>
+                            <a href="{% url 'ver_historico' paciente.nome %}">Ver Histórico</a>
+                        </div>
+                        {% empty %}
+                        <p>Nenhum paciente monitorado até o momento.</p>
+                        {% endfor %}
+                    </div>
                 </div>
 
-                <div class="card">
-                    <h3>Agendamentos</h3>
-                    <p>Veja seus agendamentos e marque novas consultas.</p>
-                    <a href="{% url 'salvar_monitoramento' %}">Ver Agendamentos</a>
-                </div>
-
-                <div class="card">
-                    <h3>Histórico Médico</h3>
-                    <p>Consulte seu histórico de atendimentos e exames.</p>
-                    <a href="{% url 'ver_historico' %}">Ver Histórico</a>
-                </div>
+                <!-- Link de Logout -->
+                <a href="{% url 'logout_medico' %}" class="logout-btn">Sair</a>
             </div>
-
-            <!-- Link de Logout -->
-            <a href="{% url 'logout_medico' %}" class="logout-btn">Sair</a>
-        </div>
         </div>
         {% endblock %}
 
-        </body>
+    </body>
 
 </html>

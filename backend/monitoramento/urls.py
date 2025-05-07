@@ -16,7 +16,7 @@ urlpatterns = [
     path('dashboard/excluir_agendamento/<int:id>/', views.excluir_agendamento, name='excluir_agendamento'),
     path('info_pessoal/', views.informacoes_pessoais, name='informacoes_pessoais'),
     path('simular_batimentos/', views.simular_batimentos, name='simular_batimentos'),
-    path('ver_historico/', views.ver_historico, name='ver_historico'),
+    path('ver_historico/<str:paciente_nome>/', views.ver_historico, name='ver_historico'),
 ]
 
 urlpatterns += router.urls
