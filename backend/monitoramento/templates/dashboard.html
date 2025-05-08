@@ -41,13 +41,15 @@
                         <p>Consulte o histórico de cada paciente.</p>
 
                         {% for paciente in pacientes %}
-                        <div class="paciente-historico">
-                            <h4>{{ paciente.nome }}</h4>
-                            <a href="{% url 'ver_historico' paciente.nome %}">Ver Histórico</a>
-                        </div>
+                            <!-- Aqui você pode adicionar informações do paciente, se necessário -->
                         {% empty %}
-                        <p>Nenhum paciente monitorado até o momento.</p>
+                            <p>Nenhum paciente monitorado até o momento.</p>
                         {% endfor %}
+
+                        <!-- Botão de acesso único para histórico, posicionado abaixo do texto "Consulte o histórico de cada paciente" -->
+                        <div class="paciente-historico">
+                            <a href="{% url 'lista_pacientes' %}">Acessar Histórico dos Pacientes</a>
+                        </div>
                     </div>
                 </div>
 

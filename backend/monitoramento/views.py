@@ -169,3 +169,8 @@ def ver_historico(request, paciente_nome):
     resultados = paciente.resultados_exames.all()
 
     return render(request, 'historico.html', {'paciente': paciente, 'batimentos': batimentos, 'resultados': resultados})
+
+@login_required
+def lista_pacientes(request):
+    pacientes = request.user.pacientes.all()  # usa related_name='pacientes'
+    return render(request, 'lista_pacientes.html', {'pacientes': pacientes})
